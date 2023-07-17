@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '_base.css';
+
+@layout base {
+  :root {
+    --background: 0deg 0% 100%;
+    --foreground: 240deg 10% 3.9%;
+
+    --muted: 240deg 4.8% 95.9%;
+    --muted-foreground: 220deg, 8.94%, 46%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 240 5% 64.9%;
+
+    --radius: 0.5rem;
+  }
+  html,
+  body {
+    @apply font-sans;
+    @apply m-0;
+    @apply p-0;
+    @apply box-border;
+    @apply leading-4;
+    @apply text-lg;
+  }
+}
+html {
+  @apply antialiased;
+  @apply min-h-screen;
+  @apply w-full;
+  @apply scroll-smooth;
+}
+
+* {
+  @apply transition-all;
+  @apply duration-300;
+}
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+
