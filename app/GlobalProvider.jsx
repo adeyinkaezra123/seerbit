@@ -6,14 +6,13 @@ import { OrderProvider } from "@/context/OrderContext";
 import { ProductProvider } from "@/context/ProductContext";
 import { SessionProvider } from "next-auth/react";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, resolveValue } from "react-hot-toast";
 
 export function GlobalProvider({ children }) {
   return (
     <>
-      <ToastContainer position="bottom-right" />
       <AuthProvider>
+        <Toaster position="top-center" containerClassName="font-sans font-medium " />
         <CartProvider>
           <OrderProvider>
             <ProductProvider>

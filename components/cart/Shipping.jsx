@@ -4,7 +4,7 @@ import CartContext from "@/context/CartContext";
 import axios from "axios";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import BreadCrumbs from "../layouts/BreadCrumbs";
 
 const Shipping = ({ addresses }) => {

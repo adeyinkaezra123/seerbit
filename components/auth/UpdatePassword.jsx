@@ -2,8 +2,7 @@
 
 import AuthContext from "@/context/AuthContext";
 import React, { useContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
-
+import { toast } from "react-hot-toast";
 const UpdatePassword = () => {
   const { error, updatePassword, clearErrors } = useContext(AuthContext);
 

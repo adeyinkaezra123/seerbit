@@ -2,51 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '_base.css';
+@import "_base.css";
 
-@layout base {
-  :root {
-    --background: 0deg 0% 100%;
-    --foreground: 240deg 10% 3.9%;
+:root,
+#root,
+#docs-root {
+  @apply h-full;
+  --background: #ffffff;
+  --foreground: #000000;
 
-    --muted: 240deg 4.8% 95.9%;
-    --muted-foreground: 220deg, 8.94%, 46%;
+  --muted: #f2f1f1;
+  --muted-foreground: #b0a0a0;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+  --border: #f5e8e8;
+  --input: #f5e8e8;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+  --card: #ffffff;
+  --card-foreground: #000000;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+  --primary: #000000;
+  --primary-foreground: #f2f2f2;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+  --secondary: #f2f1f1;
+  --secondary-foreground: #000000;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+  --accent: #f2f1f1;
+  --accent-foreground: #000000;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+  --destructive: #ff0000;
+  --destructive-foreground: #d4c8c8;
 
-    --ring: 240 5% 64.9%;
+  --ring: #d7b3b3;
 
-    --radius: 0.5rem;
-  }
-  html,
-  body {
-    @apply font-sans;
-    @apply m-0;
-    @apply p-0;
-    @apply box-border;
-    @apply leading-4;
-    @apply text-lg;
-  }
+  --radius: 0.5rem;
 }
+html,
+body {
+  @apply text-[14px];
+  @apply font-sans;
+  @apply m-0;
+  @apply p-0;
+  @apply box-border;
+  @apply leading-4;
+
+}
+
 html {
   @apply antialiased;
   @apply min-h-screen;
@@ -54,15 +57,13 @@ html {
   @apply scroll-smooth;
 }
 
-* {
+/* * {
   @apply transition-all;
   @apply duration-300;
-}
+} */
 
 @media (max-width: 640px) {
   .container {
     @apply px-4;
   }
 }
-
-

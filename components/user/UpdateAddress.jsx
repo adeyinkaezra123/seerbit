@@ -6,8 +6,7 @@ import Sidebar from "../layouts/Sidebar";
 
 import { countries } from "countries-list";
 import AuthContext from "@/context/AuthContext";
-import { toast } from "react-toastify";
-
+import { toast } from "react-hot-toast";
 const UpdateAddress = ({ id, address }) => {
   const {
     error,

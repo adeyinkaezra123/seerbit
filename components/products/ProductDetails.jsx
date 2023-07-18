@@ -7,6 +7,8 @@ import CartContext from "@/context/CartContext";
 import NewReview from "../review/NewReview";
 import OrderContext from "@/context/OrderContext";
 import Reviews from "../review/Reviews";
+import { Button } from "../layouts";
+import { toast } from "react-hot-toast";
 
 const ProductDetails = ({ product }) => {
   const { addItemToCart } = useContext(CartContext);
@@ -46,9 +48,9 @@ const ProductDetails = ({ product }) => {
       <BreadCrumbs breadCrumbs={breadCrumbs} />
       <section className="bg-white py-10">
         <div className="container max-w-screen-xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5 ">
             <aside>
-              <div className="border border-gray-200 shadow-sm p-3 text-center rounded mb-5">
+              <div className="border border-gray-200 shadow-sm p-3 text-center rounded-lg mb-5">
                 <img
                   ref={imgRef}
                   className="object-cover inline-block"
@@ -80,7 +82,7 @@ const ProductDetails = ({ product }) => {
               </div>
             </aside>
             <main>
-              <h2 className="font-semibold text-2xl mb-4">{product?.name}</h2>
+              <h2 className="font-bold text-2xl mb-4">{product?.name}</h2>
 
               <div className="flex flex-wrap items-center space-x-2 mb-2">
                 <div className="ratings">
@@ -109,17 +111,15 @@ const ProductDetails = ({ product }) => {
 
               <p className="mb-4 font-semibold text-xl">${product?.price}</p>
 
-              <p className="mb-4 text-gray-500">{product?.description}</p>
+              <p className="mb-4 text-justify font-medium text-xl text-gray-700 leading-8">
+                {product?.description}
+              </p>
 
               <div className="flex flex-wrap gap-2 mb-5">
-                <button
-                  className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-[#18181b]"
-                  onClick={addToCartHandler}
-                  disabled={!inStock}
-                >
+                <Button onClick={addToCartHandler} disabled={!inStock}>
                   <i className="fa fa-shopping-cart mr-2"></i>
                   Add to cart
-                </button>
+                </Button>
               </div>
 
               <ul className="mb-5">

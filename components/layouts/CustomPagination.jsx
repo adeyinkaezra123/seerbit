@@ -39,9 +39,9 @@ const CustomPagination = ({ resPerPage, productsCount }) => {
         prevPageText={"Prev"}
         firstPageText={"First"}
         lastPageText={"Last"}
-        itemClass="relative inline-flex items-center border border-gray-300 rounded-[5px] bg-white px-4 py-2 text-sm duration-300 font-medium mx-[4px] hover:bg-gray-50 hover:bg-[#18181b] hover:text-white focus:z-20"
-        activeLinkClassName="z-10 inline-flex items-center border border-black bg-[#18181b] text-sm font-medium text-white focus:z-21"
-        activeClass="z-10 inline-flex items-center border border-black rounded-lg bg-[#18181b] text-sm font-medium text-white focus:z-20"
+        itemClass="relative inline-flex items-center border border-gray-300 rounded-[5px] bg-white px-4 py-2 text-sm font-medium mx-[4px] hover:bg-black hover:text-white focus:z-20"
+        activeLinkClassName="z-10 inline-flex items-center border border-black bg-primary text-sm font-medium text-white focus:z-21 hover:bg-white hover:text-black"
+        activeClass="z-10 inline-flex items-center border border-black rounded-lg bg-primary text-sm font-medium text-white focus:z-20 hover:bg-white hover:text-primary"
       />
     </div>
   );

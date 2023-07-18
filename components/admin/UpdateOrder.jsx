@@ -3,7 +3,7 @@
 import OrderContext from "@/context/OrderContext";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const UpdateOrder = ({ order }) => {
   const { updateOrder, error, clearErrors, updated, setUpdated } =

@@ -3,8 +3,7 @@ import ProductContext from "@/context/ProductContext";
 import { getUserReview } from "@/helpers/helpers";
 import React, { useContext, useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
-import { toast } from "react-toastify";
-
+import { toast } from "react-hot-toast";
 const NewReview = ({ product }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");

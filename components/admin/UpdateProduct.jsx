@@ -2,7 +2,7 @@
 
 import ProductContext from "@/context/ProductContext";
 import React, { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const UpdateProduct = ({ data }) => {
   const { updateProduct, error, updated, setUpdated, clearErrors } =

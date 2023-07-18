@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useContext } from "react";
-
+import { Divider } from "../layouts";
 import CartContext from "@/context/CartContext";
 import Link from "next/link";
+import { Button } from "../layouts";
+import { MoveLeft } from "lucide-react";
 
 const Cart = () => {
   const { addItemToCart, deleteItemFromCart, cart, saveOnCheckout } =
@@ -48,11 +50,9 @@ const Cart = () => {
 
   return (
     <>
-      <section className="py-5 sm:py-7 bg-blue-100">
+      <section className="py-5 sm:py-7">
         <div className="container max-w-screen-xl mx-auto px-4">
-          <h2 className="text-3xl font-semibold mb-2">
-            {cart?.cartItems?.length || 0} Item(s) in Cart
-          </h2>
+          <h1 class="text-3xl font-bold text-black">Shopping Cart</h1>
         </div>
       </section>
 
@@ -145,43 +145,54 @@ const Cart = () => {
                 </article>
               </main>
               <aside className="md:w-1/4">
-                <article className="border border-gray-200 bg-white shadow-sm rounded mb-5 p-3 lg:p-5">
+                <article className="flex flex-col border border-gray-200 bg-white shadow-sm rounded-lg mb-5 p-3 lg:p-8 bg-gray-50 leading-5">
+                  <h2 class="text-lg font-medium text-gray-900">
+                    Order summary
+                  </h2>
+                  <Divider />
                   <ul className="mb-5">
-                    <li className="flex justify-between text-gray-600  mb-1">
+                    <li className="flex justify-between text-gray-900  mb-1">
                       <span>Amount before Tax:</span>
-                      <span>${amountWithoutTax}</span>
+                      <span className="font-semibold text-primary">
+                        ${amountWithoutTax}
+                      </span>
                     </li>
-                    <li className="flex justify-between text-gray-600  mb-1">
+                    <li className="flex justify-between text-gray-900  mb-1">
                       <span>Total Units:</span>
-                      <span className="text-green-500">
+                      <span className="font-semibold text-green-500">
                         {cart?.cartItems?.reduce(
                           (acc, item) => acc + item.quantity,
                           0
                         )}{" "}
-                        (Units)
+                        Units
                       </span>
                     </li>
                     <li className="flex justify-between text-gray-600  mb-1">
                       <span>TAX:</span>
-                      <span>${taxAmount}</span>
+                      <span className="font-semibold text-primary">
+                        ${taxAmount}
+                      </span>
                     </li>
                     <li className="text-lg font-bold border-t flex justify-between mt-3 pt-3">
                       <span>Total price:</span>
-                      <span>${totalAmount}</span>
+                      <span className="font-semibold text-primary">
+                        ${totalAmount}
+                      </span>
                     </li>
                   </ul>
-
-                  <a
-                    className="px-4 py-3 mb-2 inline-block text-lg w-full text-center font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer"
+                  <Button
+                    type="button"
+                    customClass="rounded-full"
                     onClick={checkoutHandler}
                   >
-                    Continue
-                  </a>
+                    Checkout
+                  </Button>
 
                   <Link
                     href="/"
-                    className="px-4 py-3 inline-block text-lg w-full text-center font-medium text-green-600 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100"
+                    className="inline-flex justify-center px-4 py-3 flex gap-2 text-lg w-full text-center font-medium text-gray-800 hover:text-primary"
                   >
+                    <MoveLeft />
                     Back to shop
                   </Link>
                 </article>

@@ -3,7 +3,7 @@
 import ProductContext from "@/context/ProductContext";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const UploadImages = ({ id }) => {
   const { uploadProductImages, error, loading, clearErrors } =

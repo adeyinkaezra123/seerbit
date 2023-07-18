@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const CartContext = createContext();
 
@@ -46,13 +47,15 @@ export const CartProvider = ({ children }) => {
     );
 
     let newCartItems;
-
     if (isItemExist) {
       newCartItems = cart?.cartItems?.map((i) =>
         i.product === isItemExist.product ? item : i
+        
       );
+      toast("Item is already in the cart");
     } else {
       newCartItems = [...(cart?.cartItems || []), item];
+      toast.success("Item sucessfully deleted from cart");
     }
 
     localStorage.setItem("cart", JSON.stringify({ cartItems: newCartItems }));
@@ -64,6 +67,7 @@ export const CartProvider = ({ children }) => {
 
     localStorage.setItem("cart", JSON.stringify({ cartItems: newCartItems }));
     setCartToState();
+    toast.success("Item sucessfully deleted from cart");
   };
 
   const saveOnCheckout = ({ amount, tax, totalAmount }) => {
