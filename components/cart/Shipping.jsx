@@ -11,10 +11,11 @@ import { useRouter } from "next/navigation";
 import AuthContext from "@/context/AuthContext";
 
 const Shipping = ({ addresses }) => {
-  let { cart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+
   const [showModal, setShowModal] = useState(false);
   const [shippingInfo, setShippinInfo] = useState("");
-  const { user } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -31,30 +32,33 @@ const Shipping = ({ addresses }) => {
   const checkProgress = (progress) => {
     console.log(progress);
   };
+  const openModal = () => {
+    if (!shippingInfo) {
+      return toast.error("Please select your shipping address");
+    }
+    setShowModal(true);
+  };
+
   const checkoutHandler = async () => {
     if (!shippingInfo) {
       return toast.error("Please select your shipping address");
     }
+    // move to seerbit checkoutpage
+    try {
+      const { data } = await axios.post(
+        `${process.env.API_URL}/api/orders/checkout_session`,
+        {
+          items: cart?.cartItems,
+          totalAmount: cart?.checkoutInfo?.totalAmount,
+          shippingInfo,
+        }
+      );
+      console.log(data);
 
-    setShowModal(true);
-    console.log(shippingInfo);
-    // move to seerbit checkout page
-    // try {
-    //   const { data } = await axios.post(
-    //     `${process.env.API_URL}/api/orders/checkout_session`,
-    //     {
-    //       items: cart?.cartItems,
-    //       shippingInfo,
-    //     }
-    //   );
-    //   console.log("siuu", data);
-
-    //   window.location.href = data.url;
-    // } catch (error) {
-    //   console.log(error.response);
-    // }
-
-    console.log("FOo");
+      window.location.href = data.url;
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
   const breadCrumbs = [
@@ -76,8 +80,8 @@ const Shipping = ({ addresses }) => {
         <h2 className="text-2xl font-semibold">Choose Checkout option</h2>
 
         <div className="flex flex-col p-4 gap-6 mt-10">
-          <SeerbitCheckout
-            className="rounded-full inline-flex duration-300 items-center cursor-pointer justify-center text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:opacity-75 px-6  py-3"
+          {/* <SeerbitCheckout
+            className="rounded-full inline-flex duration-300 items-center cursor-pointer justify-center text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:opacity-75 px-6  py-3"
             type="div"
             tranref={`${shippingInfo}${new Date().getTime()}`}
             currency={"NGN"}
@@ -97,11 +101,12 @@ const Shipping = ({ addresses }) => {
             tokenize={false}
             customization={customizationOptions}
             version={"2"}
-            title={"Pay with SeerBit"}
+            title={"Simple Checkout"}
             // planId={options.planId}
-          />
-          <Button customClass="rounded-full">Simple Checkout</Button>
-          <Button customClass="rounded-full">Standard Checkout</Button>
+          /> */}
+          <Button customClass="rounded-full" onClick={checkoutHandler}>
+            Standard Checkout
+          </Button>
         </div>
       </Modal>
       <section className="py-10 bg-gray-50">
@@ -157,7 +162,7 @@ const Shipping = ({ addresses }) => {
                   </Link>
                   <a
                     className="px-5 py-2 inline-block text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer"
-                    onClick={checkoutHandler}
+                    onClick={openModal}
                   >
                     Checkout
                   </a>

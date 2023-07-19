@@ -31,10 +31,10 @@ const Header = () => {
           <div className="flex-shrink-0 mr-5">
             <a href="/">
               <Image
-                src="/images/logo.png"
+                src="/images/vercel.svg"
                 height="40"
                 width="120"
-                alt="BuyItNow"
+                alt="SeerbitStore"
               />
             </a>  
           </div>

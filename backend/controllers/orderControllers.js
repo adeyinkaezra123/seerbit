@@ -1,6 +1,6 @@
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import SeerbitCheckout from "seerbit-reactjs";
+import axios from "axios";
 import Order from "../models/order";
 import APIFilters from "../utils/APIFilters";
 import ErrorHandler from "../utils/errorHandler";
@@ -104,21 +104,12 @@ export const canReview = async (req, res) => {
 };
 
 export const checkoutSession = async (req, res) => {
-  const body = req.body;
-
-  const getTotalCartPrice = (items) => {
-    let totalPrice = 0;
-    items?.map((item) => {
-      totalPrice += item.price * item.quantity;
-    });
-    return totalPrice;
-  };
-
+  const body = req?.body;
   const paymentOptions = {
     publicKey: `${process.env.SEERBIT_PUBLIC_KEY}`,
     currency: "NGN",
     country: "NG",
-    amount: getTotalCartPrice(body?.items),
+    amount: body?.totalAmount,
     email: req?.user?.email,
     name: req?.user?.name,
     productId: "",
@@ -127,48 +118,93 @@ export const checkoutSession = async (req, res) => {
     productDescription: "",
   };
 
-  // const line_items = body?.items?.map((item) => {
-  //   return {
-  //     price_data: {
-  //       currency: "usd",
-  //       product_data: {
-  //         name: item.name,
-  //         images: [item.image],
-  //         metadata: { productId: item.product },
-  //       },
-  //       unit_amount: item.price * 100,
-  //     },
-  //     tax_rates: ["txr_1MUVJSAlHMiRMt8E2khIxJEi"],
-  //     quantity: item.quantity,
-  //   };
-  // });
+  const pp = {
+    publicKey: `${process.env.SEERBIT_PUBLIC_KEY}`,
+    amount: "5000.00",
+    currency: "NGN",
+    country: "NG",
+    paymentReference: "643108207792124616573324",
+    email: "test@emaildomain.com",
+    productId: "64310880-2708933-427", //optional
+    productDescription: "product description", //optional
+    callbackUrl: "http:yourwebsite.com",
+  };
 
-  const shippingInfo = body?.shippingInfo;
+  try {
+    let authToken;
+    await axios
+      .post(`${process.env.SEERBIT_BASE_URL}/encrypt/keys`, {
+        key: `${process.env.SEERBIT_PRIVATE_KEY}.${process.env.SEERBIT_PUBLIC_KEY}`,
+      })
+      .then(
+        (res) => (authToken = res?.data?.data.EncryptedSecKey?.encryptedKey)
+      );
+    // console.log(authToken);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios.post(
+      `${process.env.SEERBIT_BASE_URL}/payments`,
+      paymentOptions,
+      config
+    );
+    console.log(response);
 
-  // const session = await stripe.checkout.sessions.create({
-  //   payment_method_types: ["card"],
-  //   success_url: `${process.env.API_URL}/me/orders?order_success=true`,
-  //   cancel_url: `${process.env.API_URL}`,
-  //   customer_email: req?.user?.email,
-  //   client_reference_id: req?.user?._id,
-  //   mode: "payment",
-  //   metadata: { shippingInfo },
-  //   shipping_options: [
-  //     {
-  //       shipping_rate: "shr_1MUVKxAlHMiRMt8EmUp4SKxz",
-  //     },
-  //   ],
-  //   line_items,
-  // });
-console.log(paymentOptions)
-  return paymentOptions;
-
-  // res.status(200).json({
-  //   url: session.url,
-  // });
+    const data = response?.data;
+    console.log(data);
+    res.status(200).json({
+      url: data.payments.redirectLink,
+    });
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    res.status(500).json({ error: `Error fetching data from API: ${error}` });
+  }
 };
 
-checkoutSession();
+// export const checkoutSession = async (req, res) => {
+//   const body = req.body;
+
+//   const line_items = body?.items?.map((item) => {
+//     return {
+//       price_data: {
+//         currency: "usd",
+//         product_data: {
+//           name: item.name,
+//           images: [item.image],
+//           metadata: { productId: item.product },
+//         },
+//         unit_amount: item.price * 100,
+//       },
+//       tax_rates: ["txr_1MUVJSAlHMiRMt8E2khIxJEi"],
+//       quantity: item.quantity,
+//     };
+//   });
+
+//   const shippingInfo = body?.shippingInfo;
+
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ["card"],
+//     success_url: `${process.env.API_URL}/me/orders?order_success=true`,
+//     cancel_url: `${process.env.API_URL}`,
+//     customer_email: req?.user?.email,
+//     client_reference_id: req?.user?._id,
+//     mode: "payment",
+//     metadata: { shippingInfo },
+//     shipping_options: [
+//       {
+//         shipping_rate: "shr_1MUVKxAlHMiRMt8EmUp4SKxz",
+//       },
+//     ],
+//     line_items,
+//   });
+
+//   res.status(200).json({
+//     url: session.url,
+//   });
+// };
 
 async function getCartItems(line_items) {
   return new Promise((resolve, reject) => {
