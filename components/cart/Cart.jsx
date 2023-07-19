@@ -10,7 +10,6 @@ import { MoveLeft } from "lucide-react";
 const Cart = () => {
   const { addItemToCart, deleteItemFromCart, cart, saveOnCheckout } =
     useContext(CartContext);
-
   const increaseQty = (cartItem) => {
     const newQty = cartItem?.quantity + 1;
     const item = { ...cartItem, quantity: newQty };
@@ -52,7 +51,7 @@ const Cart = () => {
     <>
       <section className="py-5 sm:py-7">
         <div className="container max-w-screen-xl mx-auto px-4">
-          <h1 class="text-3xl font-bold text-black">Shopping Cart</h1>
+          <h1 className="text-3xl font-bold text-black">Shopping Cart</h1>
         </div>
       </section>
 
@@ -62,8 +61,8 @@ const Cart = () => {
             <div className="flex flex-col md:flex-row gap-4">
               <main className="md:w-3/4">
                 <article className="border border-gray-200 bg-white shadow-sm rounded mb-5 p-3 lg:p-5">
-                  {cart?.cartItems?.map((cartItem) => (
-                    <div>
+                  {cart?.cartItems?.map((cartItem, index) => (
+                    <div key={index}>
                       <div className="flex flex-wrap lg:flex-row gap-5  mb-4">
                         <div className="w-full lg:w-2/5 xl:w-2/4">
                           <figure className="flex leading-5">
@@ -146,7 +145,7 @@ const Cart = () => {
               </main>
               <aside className="md:w-1/4">
                 <article className="flex flex-col border border-gray-200 bg-white shadow-sm rounded-lg mb-5 p-3 lg:p-8 bg-gray-50 leading-5">
-                  <h2 class="text-lg font-medium text-gray-900">
+                  <h2 className="text-lg font-medium text-gray-900">
                     Order summary
                   </h2>
                   <Divider />

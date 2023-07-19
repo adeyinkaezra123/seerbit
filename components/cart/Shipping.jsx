@@ -5,35 +5,56 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
-import BreadCrumbs from "../layouts/BreadCrumbs";
+import { BreadCrumbs, Modal, Button } from "../layouts";
+import SeerbitCheckout from "seerbit-reactjs";
+import { useRouter } from "next/navigation";
+import AuthContext from "@/context/AuthContext";
 
 const Shipping = ({ addresses }) => {
-  const { cart } = useContext(CartContext);
-
+  let { cart } = useContext(CartContext);
+  const [showModal, setShowModal] = useState(false);
   const [shippingInfo, setShippinInfo] = useState("");
+  const { user } = useContext(AuthContext);
+
+  const router = useRouter();
 
   const setShippingAddress = (address) => {
     setShippinInfo(address._id);
   };
+  const close = (close) => {
+    console.log(close);
+  };
+  const callback = (response) => {
+    router.push("/me/orders?order_success=true");
+  };
 
+  const checkProgress = (progress) => {
+    console.log(progress);
+  };
   const checkoutHandler = async () => {
     if (!shippingInfo) {
       return toast.error("Please select your shipping address");
     }
-    // move to stripe checkoutpage
-    try {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/api/orders/checkout_session`,
-        {
-          items: cart?.cartItems,
-          shippingInfo,
-        }
-      );
 
-      window.location.href = data.url;
-    } catch (error) {
-      console.log(error.response);
-    }
+    setShowModal(true);
+    console.log(shippingInfo);
+    // move to seerbit checkout page
+    // try {
+    //   const { data } = await axios.post(
+    //     `${process.env.API_URL}/api/orders/checkout_session`,
+    //     {
+    //       items: cart?.cartItems,
+    //       shippingInfo,
+    //     }
+    //   );
+    //   console.log("siuu", data);
+
+    //   window.location.href = data.url;
+    // } catch (error) {
+    //   console.log(error.response);
+    // }
+
+    console.log("FOo");
   };
 
   const breadCrumbs = [
@@ -41,20 +62,61 @@ const Shipping = ({ addresses }) => {
     { name: "Cart", url: "/cart" },
     { name: "Order", url: "" },
   ];
-
+  const customizationOptions = {
+    theme: {
+      border_color: "#000000",
+      background_color: "#004C64",
+      button_color: "#0084A0",
+    },
+  };
   return (
     <div>
       <BreadCrumbs breadCrumbs={breadCrumbs} />
+      <Modal open={showModal}>
+        <h2 className="text-2xl font-semibold">Choose Checkout option</h2>
+
+        <div className="flex flex-col p-4 gap-6 mt-10">
+          <SeerbitCheckout
+            className="rounded-full inline-flex duration-300 items-center cursor-pointer justify-center text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:opacity-75 px-6  py-3"
+            type="div"
+            tranref={`${shippingInfo}${new Date().getTime()}`}
+            currency={"NGN"}
+            description={cart?.cartItems[0].name}
+            country={"NG"}
+            clientappcode="seerbitstore"
+            public_key={process.env.SEERBIT_PUBLIC_KEY}
+            callback={callback}
+            close={close}
+            scriptStatus={checkProgress}
+            amount={cart?.checkoutInfo?.totalAmount}
+            tag={"button"}
+            full_name={user?.name}
+            email={user?.email}
+            mobile_no={"00000000000"}
+            display_fee
+            tokenize={false}
+            customization={customizationOptions}
+            version={"2"}
+            title={"Pay with SeerBit"}
+            // planId={options.planId}
+          />
+          <Button customClass="rounded-full">Simple Checkout</Button>
+          <Button customClass="rounded-full">Standard Checkout</Button>
+        </div>
+      </Modal>
       <section className="py-10 bg-gray-50">
         <div className="container max-w-screen-xl mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 lg:gap-8">
             <main className="md:w-2/3">
               <article className="border border-gray-200 bg-white shadow-sm rounded p-4 lg:p-6 mb-5">
-                <h2 className="text-xl font-semibold mb-5">Shipping information</h2>
+                <h2 className="text-xl font-semibold mb-5">
+                  Shipping information
+                </h2>
 
                 <div className="grid sm:grid-cols-2 gap-4 mb-6">
                   {addresses?.map((address) => (
                     <label
+                      key={address.zipCode}
                       className="flex p-3 border border-gray-200 rounded-md bg-gray-50 hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
                       onClick={() => setShippingAddress(address)}
                     >

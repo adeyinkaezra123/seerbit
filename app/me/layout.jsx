@@ -1,14 +1,13 @@
 import { Divider, Sidebar } from "@/components/layouts";
 
 
-export const metadata = {
-  title: "Store",
-  description: "Store - The place for all your purchases.",
-};
+// export const metadata = {
+//   title: "Store",
+//   description: "Store - The place for all your purchases.",
+// };
 export default function UserLayout({ children }) {
   return (
     <>
-      <body >
         <section className=" sm:py-7 bg-background shadow space-y-6 p-10 pb-16 md:block">
           <div className="container max-w-screen-xl mx-auto px-4 space-y-0.5">
             <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
@@ -29,7 +28,6 @@ export default function UserLayout({ children }) {
             </div>
           </div>
         </section>
-      </body>
     </>
   );
 }

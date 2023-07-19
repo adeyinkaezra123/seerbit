@@ -8,8 +8,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="next-size-adjust" />
       <body className={font.className}>
         <GlobalProvider>
           <Header />

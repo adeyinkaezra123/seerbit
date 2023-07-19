@@ -1,8 +1,10 @@
 import getRawBody from "raw-body";
 import Stripe from "stripe";
+import SeerbitCheckout from "seerbit-reactjs";
 import Order from "../models/order";
 import APIFilters from "../utils/APIFilters";
 import ErrorHandler from "../utils/errorHandler";
+
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export const getOrders = async (req, res) => {
@@ -104,44 +106,69 @@ export const canReview = async (req, res) => {
 export const checkoutSession = async (req, res) => {
   const body = req.body;
 
-  const line_items = body?.items?.map((item) => {
-    return {
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.name,
-          images: [item.image],
-          metadata: { productId: item.product },
-        },
-        unit_amount: item.price * 100,
-      },
-      tax_rates: ["txr_1MUVJSAlHMiRMt8E2khIxJEi"],
-      quantity: item.quantity,
-    };
-  });
+  const getTotalCartPrice = (items) => {
+    let totalPrice = 0;
+    items?.map((item) => {
+      totalPrice += item.price * item.quantity;
+    });
+    return totalPrice;
+  };
+
+  const paymentOptions = {
+    publicKey: `${process.env.SEERBIT_PUBLIC_KEY}`,
+    currency: "NGN",
+    country: "NG",
+    amount: getTotalCartPrice(body?.items),
+    email: req?.user?.email,
+    name: req?.user?.name,
+    productId: "",
+    callbackUrl: `${process.env.API_URL}/me/orders?order_success=true`,
+    paymentReference: `${new Date().getTime()}${req?.user?._id}`,
+    productDescription: "",
+  };
+
+  // const line_items = body?.items?.map((item) => {
+  //   return {
+  //     price_data: {
+  //       currency: "usd",
+  //       product_data: {
+  //         name: item.name,
+  //         images: [item.image],
+  //         metadata: { productId: item.product },
+  //       },
+  //       unit_amount: item.price * 100,
+  //     },
+  //     tax_rates: ["txr_1MUVJSAlHMiRMt8E2khIxJEi"],
+  //     quantity: item.quantity,
+  //   };
+  // });
 
   const shippingInfo = body?.shippingInfo;
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    success_url: `${process.env.API_URL}/me/orders?order_success=true`,
-    cancel_url: `${process.env.API_URL}`,
-    customer_email: req?.user?.email,
-    client_reference_id: req?.user?._id,
-    mode: "payment",
-    metadata: { shippingInfo },
-    shipping_options: [
-      {
-        shipping_rate: "shr_1MUVKxAlHMiRMt8EmUp4SKxz",
-      },
-    ],
-    line_items,
-  });
+  // const session = await stripe.checkout.sessions.create({
+  //   payment_method_types: ["card"],
+  //   success_url: `${process.env.API_URL}/me/orders?order_success=true`,
+  //   cancel_url: `${process.env.API_URL}`,
+  //   customer_email: req?.user?.email,
+  //   client_reference_id: req?.user?._id,
+  //   mode: "payment",
+  //   metadata: { shippingInfo },
+  //   shipping_options: [
+  //     {
+  //       shipping_rate: "shr_1MUVKxAlHMiRMt8EmUp4SKxz",
+  //     },
+  //   ],
+  //   line_items,
+  // });
+console.log(paymentOptions)
+  return paymentOptions;
 
-  res.status(200).json({
-    url: session.url,
-  });
+  // res.status(200).json({
+  //   url: session.url,
+  // });
 };
+
+checkoutSession();
 
 async function getCartItems(line_items) {
   return new Promise((resolve, reject) => {
@@ -206,6 +233,6 @@ export const webhook = async (req, res) => {
       res.status(201).json({ success: true });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
