@@ -80,7 +80,7 @@ const Shipping = ({ addresses }) => {
         <h2 className="text-2xl font-semibold">Choose Checkout option</h2>
 
         <div className="flex flex-col p-4 gap-6 mt-10">
-          {/* <SeerbitCheckout
+          <SeerbitCheckout
             className="rounded-full inline-flex duration-300 items-center cursor-pointer justify-center text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:opacity-75 px-6  py-3"
             type="div"
             tranref={`${shippingInfo}${new Date().getTime()}`}
@@ -103,7 +103,7 @@ const Shipping = ({ addresses }) => {
             version={"2"}
             title={"Simple Checkout"}
             // planId={options.planId}
-          /> */}
+          />
           <Button customClass="rounded-full" onClick={checkoutHandler}>
             Standard Checkout
           </Button>
