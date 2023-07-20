@@ -199,6 +199,7 @@ const Filters = () => {
                 <span className="ml-2 text-gray-500">
                   {" "}
                   <StarRatings
+                  id={rating}
                     rating={rating}
                     starRatedColor="#ffb829"
                     numberOfStars={5}

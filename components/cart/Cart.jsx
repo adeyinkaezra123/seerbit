@@ -97,7 +97,7 @@ const Cart = () => {
                             </button>
                             <input
                               type="number"
-                              className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-900  outline-none custom-input-number"
+                              className="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-900  outline-none custom-input-number"
                               name="custom-input-number"
                               value={cartItem.quantity}
                               readOnly
@@ -144,7 +144,7 @@ const Cart = () => {
                 </article>
               </main>
               <aside className="md:w-1/4">
-                <article className="flex flex-col border border-gray-200 bg-white shadow-sm rounded-lg mb-5 p-3 lg:p-8 bg-gray-50 leading-5">
+                <article className="flex flex-col border border-gray-200 bg-white shadow-sm rounded-lg mb-5 p-3 lg:p-8 leading-5">
                   <h2 className="text-lg font-medium text-gray-900">
                     Order summary
                   </h2>

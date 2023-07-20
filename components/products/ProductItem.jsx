@@ -1,7 +1,11 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { Button } from "../layouts";
-import StarRatings from "react-star-ratings";
+import dynamic from "next/dynamic";
+
+const StarRatings = dynamic(() => import("react-star-ratings"), {
+  ssr: false,
+});
 import Image from "next/image";
 import CartContext from "@/context/CartContext";
 
@@ -52,6 +56,7 @@ const ProductItem = ({ product }) => {
                 <div className="ratings">
                   <div className="my-1">
                     <StarRatings
+                      id={product?.ratings}
                       rating={product?.ratings}
                       starRatedColor="#ffb829"
                       numberOfStars={5}

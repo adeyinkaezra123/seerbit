@@ -81,7 +81,8 @@ export const CartProvider = ({ children }) => {
 
     localStorage.setItem("cart", JSON.stringify(newCart));
     setCartToState();
-    router.push("/shipping");
+    window.location.href="/shipping"
+    // router.push("/shipping");
   };
 
   const clearCart = () => {

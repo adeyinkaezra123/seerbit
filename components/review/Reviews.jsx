@@ -1,5 +1,9 @@
 import React from "react";
-import StarRatings from "react-star-ratings";
+import dynamic from "next/dynamic";
+
+const StarRatings = dynamic(() => import("react-star-ratings"), {
+  ssr: false,
+});
 
 const Reviews = ({ reviews }) => {
   return (
@@ -29,6 +33,7 @@ const Reviews = ({ reviews }) => {
           <div className="flex flex-wrap items-center space-x-2 mb-2">
             <div className="ratings">
               <StarRatings
+                id={review?.rating}
                 rating={review?.rating}
                 starRatedColor="#ffb829"
                 numberOfStars={5}

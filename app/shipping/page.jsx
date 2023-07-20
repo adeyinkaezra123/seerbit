@@ -15,10 +15,12 @@ const getAddresses = async () => {
     },
   });
 
+  console.log(data);
+
   return data?.addresses;
 };
 
-const ShippingPage = async () => {
+const ShippingPage = async () => {next-au
   const addresses = await getAddresses();
 
   return <Shipping addresses={addresses} />;

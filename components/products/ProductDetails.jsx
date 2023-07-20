@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useRef, useContext, useEffect } from "react";
-import StarRatings from "react-star-ratings";
+import dynamic from "next/dynamic";
+
+const StarRatings = dynamic(() => import("react-star-ratings"), {
+  ssr: false,
+});
 import BreadCrumbs from "../layouts/BreadCrumbs";
 import CartContext from "@/context/CartContext";
 import NewReview from "../review/NewReview";
@@ -87,6 +91,7 @@ const ProductDetails = ({ product }) => {
               <div className="flex flex-wrap items-center space-x-2 mb-2">
                 <div className="ratings">
                   <StarRatings
+                    id={rating}
                     rating={product?.ratings}
                     starRatedColor="#ffb829"
                     numberOfStars={5}

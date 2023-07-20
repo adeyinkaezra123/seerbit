@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useContext, useEffect } from "react";
-import CustomPagination from "../layouts";
+import {CustomPagination} from "../layouts";
 import OrderContext from "@/context/OrderContext";
 import { Edit2, Trash } from "lucide-react";
 

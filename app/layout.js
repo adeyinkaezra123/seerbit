@@ -8,7 +8,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <body className={font.className}>
+      <body className={font.className} suppressHydrationWarning={true}>
         <GlobalProvider>
           <Header />
           {children}

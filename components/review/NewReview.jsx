@@ -2,7 +2,11 @@ import AuthContext from "@/context/AuthContext";
 import ProductContext from "@/context/ProductContext";
 import { getUserReview } from "@/helpers/helpers";
 import React, { useContext, useEffect, useState } from "react";
-import StarRatings from "react-star-ratings";
+import dynamic from "next/dynamic";
+
+const StarRatings = dynamic(() => import("react-star-ratings"), {
+  ssr: false,
+});
 import { toast } from "react-hot-toast";
 const NewReview = ({ product }) => {
   const [rating, setRating] = useState(0);
@@ -39,6 +43,7 @@ const NewReview = ({ product }) => {
       <div className="mb-4 mt-3">
         <div className="ratings">
           <StarRatings
+          id={rating}
             rating={rating}
             starRatedColor="#ffb829"
             numberOfStars={5}

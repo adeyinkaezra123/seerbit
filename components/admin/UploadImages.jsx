@@ -2,7 +2,7 @@
 
 import ProductContext from "@/context/ProductContext";
 import Image from "next/image";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const UploadImages = ({ id }) => {
@@ -37,7 +37,7 @@ const UploadImages = ({ id }) => {
       toast.error(error);
       clearErrors();
     }
-  }, [error, updated]);
+  }, [error]);
 
   const submitHandler = (e) => {
     e.preventDefault();

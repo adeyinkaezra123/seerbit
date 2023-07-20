@@ -1,11 +1,9 @@
 import getRawBody from "raw-body";
-import Stripe from "stripe";
 import axios from "axios";
 import Order from "../models/order";
 import APIFilters from "../utils/APIFilters";
 import ErrorHandler from "../utils/errorHandler";
 
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export const getOrders = async (req, res) => {
   const resPerPage = 2;
@@ -163,6 +161,7 @@ export const checkoutSession = async (req, res) => {
     res.status(500).json({ error: `Error fetching data from API: ${error}` });
   }
 };
+
 
 
 async function getCartItems(line_items) {
