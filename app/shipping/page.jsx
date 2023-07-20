@@ -20,7 +20,7 @@ const getAddresses = async () => {
   return data?.addresses;
 };
 
-const ShippingPage = async () => {next-au
+const ShippingPage = async () => {
   const addresses = await getAddresses();
 
   return <Shipping addresses={addresses} />;
